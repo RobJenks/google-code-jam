@@ -1,7 +1,7 @@
 mod codejam_2018;
 
 fn main() {
-    codejam_2018::qualifier_1::run();
+    run_all();
 }
 
 #[allow(dead_code)]
