@@ -1,4 +1,5 @@
 use std::io::{self, BufRead, Read};
+use std::str::{FromStr};
 
 pub fn stdin_get() -> String {
     let stdin = io::stdin();
@@ -60,6 +61,27 @@ impl Input {
         where T: std::str::FromStr
     {
         self.get_line().parse::<T>().unwrap_or_else(|_| panic!("Failed to parse input line to desired type"))
+    }
+
+    pub fn get_line_components(&mut self) -> Vec<String> {
+        self.get_line_components_as::<String>()
+    }
+
+    pub fn get_line_components_as<T>(&mut self) -> Vec<T>
+        where T: std::str::FromStr
+    {
+        self.get_line()
+            .split_whitespace()
+            .map(|x| x.parse::<T>().unwrap_or_else(|_| panic!("Failed to parse input component to desired type")))
+            .collect::<Vec<T>>()
+    }
+
+    pub fn create_for_string(data: &str) -> Input {
+        Input {
+            pre_loaded: true,
+            data: data.split("\n").map(|x| x.to_string()).collect::<Vec<String>>(),
+            read_point: 0
+        }
     }
 }
 
